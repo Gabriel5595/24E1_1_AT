@@ -495,12 +495,15 @@ INSERT INTO TOP_ARTISTS (ARTIST, TRACK_NAME, POPULARITY, DURATION_MS, TRACK_ID) 
 INSERT INTO TOP_ARTISTS (ARTIST, TRACK_NAME, POPULARITY, DURATION_MS, TRACK_ID) VALUES ('Jan & Dean', 'Like a Summer Rain', '25', '173040', '3DMLizQ3fsbGqY5IjEnjhC');
 INSERT INTO TOP_ARTISTS (ARTIST, TRACK_NAME, POPULARITY, DURATION_MS, TRACK_ID) VALUES ('Jan & Dean', 'Sidewalk Surfin'' - Remastered', '25', '129892', '3fEIQIVqk3r5ISmiU1Lcbb');
 
+/* 1. Selecione todos os campos de todas as linhas na tabela top_artists.*/
 SELECT *
 FROM TOP_ARTISTS;
 
+/*2. Selecione todos os artistas distintos da tabela.*/
 SELECT DISTINCT ARTIST
 FROM TOP_ARTISTS;
 
+/*3. Selecione todas as faixas dos Rolling Stones com popularidade maior que 80.*/
 SELECT ARTIST,
 	TRACK_NAME,
     POPULARITY
@@ -508,19 +511,22 @@ FROM TOP_ARTISTS
 WHERE ARTIST = 'The Rolling Stones'
 	AND POPULARITY >= 80;
 
+/*4. Encontre todas as faixas dos Beatles que têm popularidade entre 75 e 85.*/
 SELECT ARTIST,
 	TRACK_NAME,
     POPULARITY
 FROM TOP_ARTISTS
 WHERE ARTIST = 'The Beatles'
 	AND POPULARITY BETWEEN 75 AND 85;
-   
+
+/*5. Selecione todas as faixas que estão com a popularidade de 54, 65, 79, 80 e 87.*/
 SELECT ARTIST,
 	TRACK_NAME,
     POPULARITY
 FROM TOP_ARTISTS
 WHERE POPULARITY IN (57,65,79,80,87);
 
+/*6. Selecione todas as faixas do Led Zeppelin, e ordene-as pela popularidade em ordem decrescente.*/
 SELECT ARTIST,
 	TRACK_NAME,
     POPULARITY
@@ -528,16 +534,19 @@ FROM TOP_ARTISTS
 WHERE ARTIST = 'Led Zeppelin'
 ORDER BY POPULARITY DESC;
 
+/*7. Selecione por artista o número total de milissegundos de todas as suas músicas que aparecem na tabela.*/
 SELECT ARTIST,
 	SUM(DURATION_MS) AS TOTAL_DURATION_MS
 FROM TOP_ARTISTS
 GROUP BY ARTIST;
 
+/*8. Conte quantas faixas existem para cada nível de popularidade.*/
 SELECT POPULARITY, 
 	COUNT(*) AS NUM_TRACKS
 FROM TOP_ARTISTS
 GROUP BY POPULARITY;
 
+/*9. Selecione os níveis de popularidade que têm mais de uma faixa e conte essas faixas.*/
 SELECT POPULARITY, 
 	COUNT(*) AS NUM_TRACKS
 FROM TOP_ARTISTS
@@ -545,18 +554,20 @@ GROUP BY POPULARITY
 HAVING COUNT(*) > 1
 ORDER BY NUM_TRACKS DESC;
 
-SELECT ARTIST, 
-       AVG(POPULARITY) AS AVG_POPULARITY, 
-       AVG(DURATION_MS / 60000.0) AS AVG_DURATION_MINUTES
+/*10. Encontre a média de popularidade das faixas para cada artista, mostre apenas os artistas com uma média de popularidade superior a 75, e liste esses artistas em ordem decrescente de duração média da faixa em minutos (lembre que os dados estão em milisegundos).*/
+SELECT ARTIST,
+    AVG(POPULARITY) AS AVG_POPULARITY,
+    AVG(DURATION_MS / 60000.0) AS AVG_DURATION_MINUTES
 FROM TOP_ARTISTS
 GROUP BY ARTIST
 HAVING AVG(POPULARITY) > 75
 ORDER BY AVG_DURATION_MINUTES DESC;
 
-SELECT ARTIST, 
-       AVG(POPULARITY) AS AVG_POPULARITY, 
-       AVG(DURATION_MS / 60000.0) AS AVG_DURATION_MINUTES
+/*11. Por fim, identifique os artistas cuja média de popularidade de suas faixas está acima de 75 e, ao mesmo tempo, descubra a duração média dessas faixas. Além disso, apresente apenas os artistas que têm mais de 2 faixas registradas na tabela.*/
+SELECT ARTIST,
+    AVG(POPULARITY) AS AVG_POPULARITY,
+    AVG(DURATION_MS / 60000.0) AS AVG_DURATION_MINUTES
 FROM TOP_ARTISTS
 GROUP BY ARTIST
 HAVING COUNT(*) > 2
-   AND AVG(POPULARITY) > 75;
+    AND AVG(POPULARITY) > 75;
